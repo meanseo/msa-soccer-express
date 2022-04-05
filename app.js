@@ -4,10 +4,22 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const { port, MONGO_URI } = process.env;
+const board = require('./app/routes/board.route')
+const user = require('./app/routes/user.route')
+const admin = require('./app/routes/admin.route')
+const basic = require('./app/routes/basic.route')
+const game = require('/app/routes/game.route')
+const todo = require('/app/routes/todo.route')
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+app.use('/api/user',user)
+app.use('/api/board',board)
+app.use('/api/admin', admin)
+app.use('/api/basic', basic)
+app.use('/api/game', game)
+app.use('/api/todo', todo)
 var corsOptions = {
   origin: 'http://localhost:3000',
   optionsSuccessStatus: 200 
@@ -25,16 +37,9 @@ app.get('/', (req, res) => {
 app.get('/api/now', cors(corsOptions),(req, res) => {
   res.json({"now":new Date().toLocaleString()})
 })
-app.post("/api/board/write", (req, res)=>{
-  const {passengerId, name, teamId, subject} = req.body
-  console.log(`넘어온 JSON 값 : ${JSON.stringify(req.body)}`)
-  console.log(`passengerId 값 : ${passengerId}`)
-  console.log(`name 값 : ${name}`)
-  console.log(`teamId 값 : ${teamId}`)
-  console.log(`subject 값 : ${subject}`)
-  res.json(req.body)
-})
-function computeBMI(name, height, weight){
+
+function computeBMI(payload){
+  const {name, weight, height} =payload
   console.log(' #### 진입  ### ')
       let _height=Number(height);
       let _weight=Number(weight);
@@ -72,11 +77,11 @@ function calculator(num1, opcode, num2){
     var result = {num1, opcode, num2}
 
     switch(opcode){
-      case '+': result.res = _num1 + _num2
-      case '-': result.res = _num1 - _num2
-      case '*': result.res = _num1 * _num2
-      case '/': result.res = _num1 / _num2
-      case '%': result.res = _num1 % _num2
+      case '+': result.res = _num1 + _num2; break; 
+      case '-': result.res = _num1 - _num2; break; 
+      case '*': result.res = _num1 * _num2; break; 
+      case '/': result.res = _num1 / _num2; break; 
+      case '%': result.res = _num1 % _num2; break; 
     }
   return result
 }
