@@ -20,18 +20,19 @@ exports.bmi=(payload)=>{
         return result
   }
 
-exports.calc=(num1, opcode, num2)=>{
+exports.calc=(payload)=>{
+    const {num1, opcode, num2} = payload
     let _num1 = Number(num1)
     let _num2 = Number(num2)
-    let _opcode = Number(opcode)
+    let _opcode = opcode
     var result = {num1, opcode, num2}
 
-    switch(opcode){
+    switch(_opcode){
       case '+': result.res = _num1 + _num2; break; 
       case '-': result.res = _num1 - _num2; break; 
       case '*': result.res = _num1 * _num2; break; 
       case '/': result.res = _num1 / _num2; break; 
       case '%': result.res = _num1 % _num2; break; 
     }
-  return result
+    return result
 }
