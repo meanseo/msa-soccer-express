@@ -1,5 +1,4 @@
-module.exports = mongoose => {
-    return mongoose.model(
+module.exports = mongoose => mongoose.model(
         'user',
         mongoose.Schema(
             {username: String,
@@ -9,4 +8,3 @@ module.exports = mongoose => {
             }, { timestamps: true}
         )
     )
-}
