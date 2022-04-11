@@ -13,7 +13,6 @@ const nodes = ['basic','board','user']
 for(const leaf of nodes){
   require(`${APP}/${leaf}.route`)({url:`/api/${leaf}`,app})
 }
-
 const corsOptions = {
   origin: 'http://localhost:3000',
   optionsSuccessStatus: 200 
