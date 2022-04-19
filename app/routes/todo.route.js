@@ -1,9 +1,7 @@
-const express = require("express");
-const todoRouter = express.Router();
+const { todo, todolist } = require('../controllers/todo.controller');
 
-todoRouter.use(function Log(req, res, next) {
-    console.log('### 사용자 서버 ###');
-    next();
-});
-
-module.exports =todoRouter;
+module.exports = x => {
+    console.log(' ### todo.route 로 들어옴 ###')
+    x.app.post(`${x.url}/todo`, todo);
+    x.app.get(`${x.url}/list`, todolist);
+}

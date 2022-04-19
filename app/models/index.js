@@ -7,6 +7,6 @@ const db = {}
 db.mongoose = mongoose
 db.url = MONGO_URI
 db.user = require('./user.model')(mongoose)
-db.board = require('./board.model')(mongoose)
+db.todo = require('./todo.model')(mongoose)
 
 module.exports= db
