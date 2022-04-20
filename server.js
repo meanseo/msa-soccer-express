@@ -1,11 +1,12 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import cors from 'cors';
 import db from './app/models/index.js';
 import indexRouter from './app/routes/index.js';
-import apiRouter from './app/routes/api';
-// const tokenRouter = require('./app/routes/token');
+import apiRouter from './app/routes/api.js';
+import basicRouter from './app/routes/basic.js';
+import ResponseService from "./app/services/responseService.js";
 
+// const tokenRouter = require('./app/routes/token');
 
 async function startServer() {
     dotenv.config()
@@ -18,12 +19,10 @@ async function startServer() {
     app.use(express.json());
     app.use('/', indexRouter);
     app.use('/api', apiRouter);
-    // const APP = './app/routes'
-    // const nodes = ['basic', 'board', 'user', 'todo']
-    // // for (const leaf of nodes) {
-    //     require(`${APP}/${leaf}.route`)({url: `/api/${leaf}`, app})
-    // }
-
+    app.use('/basic', basicRouter)
+    // const APP = './app/routes' const nodes = ['basic', 'board', 'user', 'todo']
+    // for (const leaf of nodes) {require(`${APP}/${leaf}.route`)({url:`/api/${leaf}`, app}) }
+    const responseService = new ResponseService()
     db
         .mongoose
         .connect(mongoUri, {
@@ -37,6 +36,17 @@ async function startServer() {
             console.log(' 몽고DB 연결 실패', err)
             process.exit();
         });
+
+    app.all("*", function (_req, res) {
+        return apiResponse.notFoundResponse(res, "페이지를 찾을 수 없습니다");
+    });
+
+    app.use((err, _req, res) => {
+        if(err.name == "UnauthorizedError"){
+          return responseService.unauthorizedResponse(res, err.message);
+        }
+      });
+
     app.listen(port, () => {
         console.log('***************** ***************** *****************')
         console.log('********** 서버가 정상적으로 실행되고 있습니다 *********')
