@@ -6,7 +6,7 @@ const cors = require('cors')
 
 const tokenRouter = require('./app/routes/token');
 app.use('/token', tokenRouter);
-// const { verifyToken } = require('./middlewares');
+
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
