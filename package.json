@@ -17,5 +17,6 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.9",
     "morgan": "~1.9.1"
-  }
+  },
+  "type": "module"
 }
