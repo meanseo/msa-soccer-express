@@ -1,11 +1,13 @@
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
+import UserModel from './userModel.js'
+import TodoModel from './todoModel.js'
 mongoose.Promise = global.Promise
 
 const db = {}
 db.mongoose = mongoose
 db.url = dotenv.MONGO_URI
-// db.user = require('./user.model')(mongoose)
-// db.todo = require('./todo.model')(mongoose)
+db.User = new UserModel(mongoose)
+db.Todo = new TodoModel(mongoose)
 
 export default db
